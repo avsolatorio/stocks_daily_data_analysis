@@ -9,6 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 from web_login import getLoginAccess
+import bz2
 import cPickle
 import datetime
 import re
@@ -23,6 +24,12 @@ def trimNuisancePartFromResponse(response):
 def getCurrentDateInString():
     date = datetime.datetime.now()
     return date.strftime('%m_%d_%Y')    #Equivalent to: 06_10_2014 which is June 10, 2014
+
+def compressAndSaveData(data, file_name):
+    bz2_file = bz2.BZ2File(file_name, 'w')
+    bz2_file.write(data)
+    bz2_file.close()
+
 
 def main():
     symbols_names = cPickle.load(open('PSE_LISTED_STOCKS_SYMBOLS_NAMES.dict'))
@@ -39,13 +46,11 @@ def main():
 
         final_data = trimNuisancePartFromResponse(data)
 
-        file_name = './%s/%s_%s.htm' % (symbol.upper(), symbol.upper(), current_date)
+        file_name = './%s/%s_%s.htm.bz2' % (symbol.upper(), symbol.upper(), current_date)
         if not os.path.isdir(os.path.dirname(file_name)):
             os.makedirs(os.path.dirname(file_name))
 
-        f = file(file_name, 'w')
-        f.write(final_data)
-        f.close()
+        compressAndSaveData(final_data, file_name)
 
         time.sleep(0.2)
 
