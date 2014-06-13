@@ -53,7 +53,8 @@ def main():
 
         compressAndSaveData(final_data, file_name)
 
-        time.sleep(0.2)
+        print "Done getting data for: ", symbol.upper()
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
