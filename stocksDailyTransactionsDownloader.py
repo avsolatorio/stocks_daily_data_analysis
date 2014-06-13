@@ -33,7 +33,8 @@ def compressAndSaveData(data, file_name):
 
 def main():
     symbols_names = cPickle.load(open('PSE_LISTED_STOCKS_SYMBOLS_NAMES.dict'))
-    access_site = raw_input("Please input the url for the site that you want to access: ")
+    url = raw_input("Please input the url for the site that you want to access: ")
+    access_site = url + '/Public/Default.aspx'
     current_date = getCurrentDateInString()
     htmlOpener = getLoginAccess(access_site)
 
@@ -41,7 +42,7 @@ def main():
 
     for symbol in symbols:
         print "Processing data for: %s" % symbol.upper()
-        response = htmlOpener.open('https://www.philstocks.ph/Infinity/Transactions.cshtml?Symbol=%s' % symbol.upper())
+        response = htmlOpener.open('%s/Infinity/Transactions.cshtml?Symbol=%s' % (url, symbol.upper()))
         data = response.read()
 
         final_data = trimNuisancePartFromResponse(data)
