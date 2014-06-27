@@ -42,8 +42,16 @@ def main():
 
     for symbol in symbols:
         print "Processing data for: %s" % symbol.upper()
-        response = htmlOpener.open('%s/Infinity/Transactions.cshtml?Symbol=%s' % (url, symbol.upper()))
-        data = response.read()
+        data = ''
+
+        while not data:
+            try:
+                response = htmlOpener.open('%s/Infinity/Transactions.cshtml?Symbol=%s' % (url, symbol.upper()))
+                data = response.read()
+            except: #urllib2.URLError:
+                print "urllib2.URLError"
+                continue
+
 
         final_data = trimNuisancePartFromResponse(data)
 
