@@ -47,7 +47,7 @@ class Stock(Base):
     stock_name = sqlalchemy.Column(sqlalchemy.String)
 
     def __repr__(self):
-        return "<Stock(stock_symbol=%s, stock_name=%s)>" % (self.stock_symbol. self.stock_name)
+        return "<Stock(stock_symbol=%s, stock_name=%s)>" % (self.stock_symbol, self.stock_name)
 
 class Broker(Base):
     __tablename__ = "broker"
@@ -80,6 +80,8 @@ class Transaction(Base):
     volume = sqlalchemy.Column(sqlalchemy.Integer)
     price = sqlalchemy.Column(sqlalchemy.Float)
 
+    def __repr__(self):
+        return "<Transaction(volume=%d, price=%f, buyer=%s, seller=%s, stock=%s, transaction_time=%s)>" % (self.volume, self.price, self.buyer.__repr__(), self.seller.__repr__(), self.stock.__repr__(), self.transaction_time.__repr__())
 
 
 Base.metadata.create_all(engine)
